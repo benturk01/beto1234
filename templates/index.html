@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duygu Tahmin Uygulaması</title>
+    <style>
+        body {
+            background-color: #f1c40f; /* Arka plan rengi */
+            display: flex;
+            flex-direction: column; /* İçerik sıralamasını dikey yap */
+            align-items: center; /* İçeriği yatayda ortala */
+            height: 100vh; /* Ekran yüksekliği kadar uzat */
+            margin: 0; /* Sayfa kenar boşluklarını kaldır */
+        }
+
+        h1 {
+            text-align: center; /* Başlığı ortala */
+            color: #3498db; /* Başlık rengi */
+            margin-top: 20px; /* Başlığı sayfanın üstüne yaklaştır */
+        }
+
+        #tahmin-form {
+            text-align: center; /* Formu ortala */
+            background-color: white; /* Form arka plan rengi */
+            padding: 30px; /* Form etrafına iç boşluk ver */
+            border-radius: 10px; /* Form kenarlarını yuvarla */
+            width: 400px; /* Form genişliği */
+            margin-bottom: 20px; /* Form ile sonuç bölümü arasına boşluk bırak */
+        }
+
+        #tahmin-form label {
+            display: block; /* Etiketleri blok olarak yerleştir */
+            margin-bottom: 10px; /* Etiketler arasında boşluk bırak */
+        }
+
+        #tahmin-form input[type="text"] {
+            width: calc(100% - 20px); /* Metin girişinin genişliği */
+            padding: 10px; /* Metin girişine iç boşluk ver */
+            margin-bottom: 20px; /* Metin girişi ile sonuç bölümü arasında boşluk bırak */
+            border: 1px solid #ccc; /* Metin girişi kenarlık rengi */
+            border-radius: 5px; /* Metin girişi kenarlarını yuvarla */
+        }
+
+        #tahmin-form input[type="submit"] {
+            background-color: #3498db; /* Gönder düğmesi arka plan rengi */
+            color: white; /* Gönder düğmesi metin rengi */
+            border: none; /* Gönder düğmesi kenarlık yok */
+            padding: 10px 20px; /* Gönder düğmesine iç boşluk ver */
+            border-radius: 5px; /* Gönder düğmesi kenarlarını yuvarla */
+            cursor: pointer; /* Gönder düğmesine tıklanabilir imleç */
+        }
+
+        #tahmin-sonucu {
+            text-align: center; /* Sonuçları ortala */
+            padding: 20px; /* Sonuç kutusuna iç boşluk ver */
+            background-color: #2ecc71; /* Sonuç kutusunun arka plan rengi */
+            border-radius: 10px; /* Sonuç kutusunun kenarlarını yuvarla */
+            color: white; /* Sonuç kutusunun metin rengi */
+            width: 400px; /* Sonuç kutusunun genişliği */
+            margin: auto; /* Sonuç kutusunu yatayda ortala */
+            margin-top: 20px; /* Sonuç kutusunu bir cümle giriş kutusunun altına yerleştir */
+        }
+    </style>
+</head>
+<body>
+    <h1>Duygu Tahmin Uygulaması</h1>
+    <form id="tahmin-form">
+        <label for="cumle">Bir cümle girin:</label><br>
+        <input type="text" id="cumle" name="cumle"><br><br>
+        <input type="submit" value="Tahmin Et">
+    </form>
+    <div id="tahmin-sonucu"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#tahmin-form").submit(function(e) {
+                e.preventDefault();
+                var cumle = $("#cumle").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/tahmin",
+                    data: {cumle: cumle},
+                    success: function(response) {
+                        $("#tahmin-sonucu").html(response.tahmin);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
